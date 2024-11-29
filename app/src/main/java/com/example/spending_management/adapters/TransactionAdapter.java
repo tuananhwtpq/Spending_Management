@@ -17,13 +17,15 @@ import com.example.spending_management.utils.Helper;
 
 import java.util.ArrayList;
 
+import io.realm.RealmResults;
+
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder> {
 
 
     Context context;
-    ArrayList<Transaction> transactions;
+    RealmResults<Transaction> transactions;
 
-    public TransactionAdapter(Context context, ArrayList<Transaction> transactions) {
+    public TransactionAdapter(Context context, RealmResults<Transaction> transactions) {
         this.context = context;
         this.transactions = transactions;
     }

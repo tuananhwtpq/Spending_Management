@@ -123,7 +123,7 @@
                 android:text="Income" />
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/incomeLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -146,7 +146,7 @@
                 android:text="Expense" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/expenseLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -169,7 +169,7 @@
                 android:text="Total" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/totalLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -216,6 +216,20 @@
         app:layout_constraintHorizontal_bias="0.0"
         tools:listitem="@layout/row_transaction"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" >
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <ImageView
+        android:id="@+id/emptyState"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:alpha="0.4"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/transactionsList"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:srcCompat="@drawable/empty_state" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

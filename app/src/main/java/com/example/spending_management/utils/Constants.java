@@ -47,9 +47,9 @@ public class Constants {
 
             case "Cash":
                 return R.color.Cash;
-            case "MB_Bank":
+            case "Coin":
                 return  R.color.MB_Bank;
-            case "Viettel_Money":
+            case "Paypal":
                 return R.color.Viettel_Money;
             case "Other":
                 return R.color.Other;

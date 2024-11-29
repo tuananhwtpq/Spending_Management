@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("realm-android")  // Áp dụng plugin Realm theo cách Kotlin DSL
 }
 
 android {

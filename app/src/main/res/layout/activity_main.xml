@@ -127,7 +127,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="0.0" />
+                android:text="0.0"
+                android:textColor="#98F62B" />
         </LinearLayout>
 
         <LinearLayout
@@ -149,7 +150,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="0.0" />
+                android:text="0.0"
+                android:textColor="#E21212" />
         </LinearLayout>
 
         <LinearLayout

@@ -1,5 +1,7 @@
 package com.example.spending_management.utils;
 
+import androidx.annotation.Nullable;
+
 import com.example.spending_management.R;
 import com.example.spending_management.models.Category;
 
@@ -10,10 +12,17 @@ public class Constants {
     public static String EXPENSE = "EXPENSE";
 
     public static ArrayList<Category> categories;
-    public static void setCategories(){
 
+    public static int DAILY = 0;
+    public static int MONTHLY = 1;
+    public static int CALENDAR = 2;
+    public static int SUMMARY = 3;
+    public static int NOTES = 4;
+
+    public static int SELECTED_TAB = 0;
+
+    public static void setCategories() {
         categories = new ArrayList<>();
-
         categories.add(new Category("Salary", R.drawable.ic_salary, R.color.category1));
         categories.add(new Category("Business", R.drawable.ic_business, R.color.category2));
         categories.add(new Category("Investment", R.drawable.ic_investment, R.color.category3));
@@ -22,17 +31,15 @@ public class Constants {
         categories.add(new Category("Other", R.drawable.ic_other, R.color.category6));
     }
 
-    public static Category getCategoriesDetails(String categoryName){
+    public static Category getCategoryDetails(String categoryName) {
         for (Category cat :
                 categories) {
-            if(cat.getCategory_name().equals(categoryName)){
+            if (cat.getCategoryName().equals(categoryName)) {
                 return cat;
             }
         }
-
         return null;
     }
-
     public static int getAccountColor(String accountName){
         switch (accountName){
             case "Bank":
@@ -50,4 +57,6 @@ public class Constants {
                 return R.color.redColor;
         }
     }
+
+
 }

@@ -22,6 +22,10 @@ public class Category {
         this.category_color = category_color;
     }
 
+    public String getCategoryName() {
+        return category_name;
+    }
+
     public String getCategory_name() {
         return category_name;
     }

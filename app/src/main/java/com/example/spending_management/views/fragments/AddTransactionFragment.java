@@ -123,7 +123,7 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             accounts.add(new Account(0, "Cash"));
             accounts.add(new Account(0, "Bank"));
             accounts.add(new Account(0, "PayTM"));
-            accounts.add(new Account(0, "EasyPaisa"));
+            accounts.add(new Account(0, "Easy Paisa"));
             accounts.add(new Account(0, "Other"));
 
             AccountAdapter adapter = new AccountAdapter(getContext(), accounts, new AccountAdapter.AccountClickListener() {

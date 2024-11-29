@@ -2,8 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="orangeDark">#F43729</color>
-    <color name="orange">#FF5722</color>
+    <color name="orangeDark">#132C56</color>
+    <color name="orange">#00B4D8</color>
     <color name="greenColor">#4CAF50</color>
     <color name="redColor">#EF1B0B</color>
     <color name="textColor">#EFEBEB</color>
@@ -20,5 +20,7 @@
     <color name="MB_Bank">#CFE210</color>
     <color name="Viettel_Money">#EF0957</color>
     <color name="Other">#DE8A6F</color>
+
+    <color name="toolBarColor">#36F03F</color>
 
 </resources>

@@ -11,7 +11,7 @@
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/orange"
+        android:background="#1F509A"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="125dp"
-        android:background="#FF5722"
+        android:background="#1F509A"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="15dp"
@@ -39,6 +39,7 @@
             android:id="@+id/previousDateBtn"
             android:layout_width="47dp"
             android:layout_height="22dp"
+            android:background="#1F509A"
             android:rotation="180"
             app:srcCompat="@drawable/ic_chevron" />
 
@@ -49,27 +50,30 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="November 27, 2024"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textColor="#fff"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/nextDateBtn"
             android:layout_width="36dp"
             android:layout_height="24dp"
+            android:background="#1F509A"
             app:srcCompat="@drawable/ic_chevron" />
     </LinearLayout>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FF5722"
+        android:layout_height="55sp"
+        android:background="#E38E49"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:tabIndicator="@color/white"
+        app:tabTextAppearance="@style/CustomTabTextAppearance"
         app:tabMode="scrollable"
-        app:tabTextColor="@color/white">
+        app:tabTextColor="#fff">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
@@ -120,7 +124,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Income" />
+                android:text="Income"
+                android:textColor="#43A047"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/incomeLbl"
@@ -128,7 +134,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0.0"
-                android:textColor="#98F62B" />
+                android:textColor="#43A047"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -143,7 +150,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Expense" />
+                android:text="Expense"
+                android:textColor="#E53935"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/expenseLbl"
@@ -151,7 +160,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0.0"
-                android:textColor="#E21212" />
+                android:textColor="#E53935"
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -166,14 +176,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Total" />
+                android:text="Total"
+                android:textColor="#F9A825"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/totalLbl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="0.0" />
+                android:text="0.0"
+                android:textColor="#F9A825"
+                android:textSize="20sp" />
         </LinearLayout>
 
     </LinearLayout>
@@ -182,7 +196,7 @@
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FF5722"
+        android:background="#1F509A"
         app:itemActiveIndicatorStyle="@style/App.CustomIndicator"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
@@ -201,8 +215,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
-        android:tint="#F5FFFFFF"
-        app:backgroundTint="#5DC2F0"
+        android:tint="#FFFFFF"
+        app:backgroundTint="#EFA6BE"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="@+id/bottomNavigationView"
         app:srcCompat="@drawable/ic_plus" />
@@ -214,9 +228,9 @@
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        tools:listitem="@layout/row_transaction"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" >
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        tools:listitem="@layout/row_transaction">
 
     </androidx.recyclerview.widget.RecyclerView>
 

@@ -45,7 +45,7 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
         holder.binding.transactionDate.setText(Helper.formatDate(transaction.getDate()));
         holder.binding.transactionCategory.setText(transaction.getCategory());
 
-        Category transactionCategory = Constants.getCategoriesDetails(transaction.getCategory());
+        Category transactionCategory = Constants.getCategoryDetails(transaction.getCategory());
 
         holder.binding.categoryIcon.setImageResource(transactionCategory.getCategory_image());
         holder.binding.categoryIcon.setBackgroundTintList(context.getColorStateList(transactionCategory.getCategory_color()));

@@ -119,80 +119,48 @@ public class StatsFragment extends Fragment {
 
         Pie pie = AnyChart.pie();
 
-        viewModel.categoriesTransactions.observe(getViewLifecycleOwner(), new Observer<RealmResults<Transaction>>() {
-            @Override
-            public void onChanged(RealmResults<Transaction> transactions) {
+        viewModel.categoriesTransactions.observe(getViewLifecycleOwner(), transactions -> {
+            if (transactions.size() > 0) {
+                binding.emptyState.setVisibility(View.GONE);
+                binding.anyChart.setVisibility(View.VISIBLE);
 
+                List<DataEntry> data = new ArrayList<>();
+                Map<String, Double> categoryMap = new HashMap<>();
+                for (Transaction transaction : transactions) {
+                    String category = transaction.getCategory();
+                    double amount = transaction.getAmount();
 
-                if(transactions.size() > 0){
-
-                    binding.emptyState.setVisibility(View.GONE);
-                    binding.anyChart.setVisibility(View.VISIBLE);
-                    List<DataEntry> data = new ArrayList<>();
-
-                    Map<String, Double> categoryMap = new HashMap<>();
-                    for (Transaction transaction : transactions){
-                        String category = transaction.getCategory();
-                        double amout = transaction.getAmount();
-
-                        if(categoryMap.containsKey(category)){
-                            double currentTotal = categoryMap.get(category).doubleValue();
-                            currentTotal += Math.abs(amout);
-
-                            categoryMap.put(category, amout);
-                        }else{
-                            categoryMap.put(category, Math.abs(amout));
-                        }
-                    }
-
-                    for(Map.Entry<String, Double> entry : categoryMap.entrySet()){
-                        data.add(new ValueDataEntry(entry.getKey(), entry.getValue()));
-                    }
-                    pie.data(data);
-                }else{
-                    binding.emptyState.setVisibility(View.VISIBLE);
-                    binding.anyChart.setVisibility(View.GONE);
-
+                    categoryMap.put(category, categoryMap.getOrDefault(category, 0.0) + Math.abs(amount));
                 }
 
+                for (Map.Entry<String, Double> entry : categoryMap.entrySet()) {
+                    data.add(new ValueDataEntry(entry.getKey(), entry.getValue()));
+                }
+
+                pie.data(data);
+            } else {
+                binding.emptyState.setVisibility(View.VISIBLE);
+                binding.anyChart.setVisibility(View.GONE);
             }
         });
+
 
         viewModel.getTransactions(calendar, SELECTED_STATS_TYPE);
 
 
-//        data.add(new ValueDataEntry("Apples", 6371664));
-//        data.add(new ValueDataEntry("Pears", 789622));
-//        data.add(new ValueDataEntry("Bananas", 7216301));
-//        data.add(new ValueDataEntry("Grapes", 1486621));
-//        data.add(new ValueDataEntry("Oranges", 1200000));
-//
-//
-//
-//        pie.title("Fruits imported in 2015 (in kg)");
-//
-//        pie.labels().position("outside");
-//
-//        pie.legend().title().enabled(true);
-//        pie.legend().title()
-//                .text("Retail channels")
-//                .padding(0d, 0d, 10d, 0d);
-//
-//        pie.legend()
-//                .position("center-bottom")
-//                .itemsLayout(LegendLayout.HORIZONTAL)
-//                .align(Align.CENTER);
 
         binding.anyChart.setChart(pie);
         return binding.getRoot();
     }
 
     void updateDate() {
-        if(Constants.SELECTED_TAB_STATS == Constants.DAILY) {
+        if (Constants.SELECTED_TAB_STATS == Constants.DAILY) {
             binding.currentDate.setText(Helper.formatDate(calendar.getTime()));
-        } else if(Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
+        } else if (Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
             binding.currentDate.setText(Helper.formatDateByMonth(calendar.getTime()));
         }
+
         viewModel.getTransactions(calendar, SELECTED_STATS_TYPE);
     }
+
 }

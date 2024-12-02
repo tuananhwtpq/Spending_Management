@@ -17,6 +17,7 @@ import io.realm.RealmResults;
 
 public class MainViewModel extends AndroidViewModel {
 
+
     public MutableLiveData<RealmResults<Transaction>> transactions = new MutableLiveData<>();
     public MutableLiveData<RealmResults<Transaction>> categoriesTransactions = new MutableLiveData<>();
 
@@ -35,28 +36,28 @@ public class MainViewModel extends AndroidViewModel {
 
     public void getTransactions(Calendar calendar, String type) {
         this.calendar = calendar;
+
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
 
-
         RealmResults<Transaction> newTransactions = null;
-        if(Constants.SELECTED_TAB == Constants.DAILY) {
+
+        if (Constants.SELECTED_TAB_STATS == Constants.DAILY) {
+
             newTransactions = realm.where(Transaction.class)
                     .greaterThanOrEqualTo("date", calendar.getTime())
                     .lessThan("date", new Date(calendar.getTime().getTime() + (24 * 60 * 60 * 1000)))
                     .equalTo("type", type)
                     .findAll();
+        } else if (Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
+            Calendar startCalendar = (Calendar) calendar.clone();
+            startCalendar.set(Calendar.DAY_OF_MONTH, 1);
+            Date startTime = startCalendar.getTime();
 
-        } else if(Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
-            calendar.set(Calendar.DAY_OF_MONTH,0);
-
-            Date startTime = calendar.getTime();
-
-
-            calendar.add(Calendar.MONTH,1);
-            Date endTime = calendar.getTime();
+            startCalendar.add(Calendar.MONTH, 1);
+            Date endTime = startCalendar.getTime();
 
             newTransactions = realm.where(Transaction.class)
                     .greaterThanOrEqualTo("date", startTime)
@@ -65,10 +66,18 @@ public class MainViewModel extends AndroidViewModel {
                     .findAll();
         }
 
+//        // In số lượng giao dịch để kiểm tra
+//        if (newTransactions != null) {
+//            Log.d("Transactions", "Count: " + newTransactions.size());
+//        } else {
+//            Log.d("Transactions", "No transactions found");
+//        }
 
+        // Cập nhật dữ liệu vào LiveData
         categoriesTransactions.setValue(newTransactions);
-
     }
+
+
 
 
     public void getTransactions(Calendar calendar) {
@@ -115,13 +124,15 @@ public class MainViewModel extends AndroidViewModel {
 
 
         } else if(Constants.SELECTED_TAB == Constants.MONTHLY) {
-            calendar.set(Calendar.DAY_OF_MONTH,0);
+            Calendar calendarStart = (Calendar) calendar.clone();
+            calendarStart.set(Calendar.DAY_OF_MONTH, 1); // Đặt ngày là 1
+            Date startTime = calendarStart.getTime();
 
-            Date startTime = calendar.getTime();
-
-
-            calendar.add(Calendar.MONTH,1);
-            Date endTime = calendar.getTime();
+            // Tính ngày cuối tháng: lấy ngày 1 của tháng tiếp theo, sau đó trừ đi 1 ngày
+            calendarStart.add(Calendar.MONTH, 1);
+            calendarStart.set(Calendar.DAY_OF_MONTH, 1); // Đặt ngày là 1 của tháng tiếp theo
+            calendarStart.add(Calendar.DATE, -1); // Lùi lại một ngày để có ngày cuối tháng
+            Date endTime = calendarStart.getTime();
 
             newTransactions = realm.where(Transaction.class)
                     .greaterThanOrEqualTo("date", startTime)
@@ -172,7 +183,6 @@ public class MainViewModel extends AndroidViewModel {
         realm.commitTransaction();
         getTransactions(calendar);
     }
-
 
 
     public void addTransactions() {

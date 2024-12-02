@@ -138,6 +138,8 @@ public class TransactionsFragment extends Fragment {
         return binding.getRoot();
     }
 
+
+
     void updateDate() {
         if(Constants.SELECTED_TAB == Constants.DAILY) {
             binding.currentDate.setText(Helper.formatDate(calendar.getTime()));

@@ -159,6 +159,8 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             dismiss();
         });
 
+
+
         return binding.getRoot();
     }
 }

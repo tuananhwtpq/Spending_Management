@@ -49,7 +49,7 @@ public class MainViewModel extends AndroidViewModel {
                     .equalTo("type", type)
                     .findAll();
 
-        } else if(Constants.SELECTED_TAB == Constants.MONTHLY) {
+        } else if(Constants.SELECTED_TAB_STATS == Constants.MONTHLY) {
             calendar.set(Calendar.DAY_OF_MONTH,0);
 
             Date startTime = calendar.getTime();

@@ -104,12 +104,24 @@ public class TransactionsFragment extends Fragment {
             @Override
             public void onChanged(RealmResults<Transaction> transactions) {
                 TransactionAdapter transactionsAdapter = new TransactionAdapter(getActivity(), transactions);
+
+                transactionsAdapter.setOnTransactionClickListener(new TransactionAdapter.OnTransactionClickListener() {
+                    @Override
+                    public void onTransactionClick(Transaction transaction) {
+                        showTransactionDetails(transaction);
+                    }
+                });
+
+
                 binding.transactionList.setAdapter(transactionsAdapter);
                 if(transactions.size() > 0) {
                     binding.emptyState.setVisibility(View.GONE);
                 } else {
                     binding.emptyState.setVisibility(View.VISIBLE);
                 }
+                transactionsAdapter.setOnTransactionLongClickListener(transaction -> {
+                    showTransactionDetails(transaction); // Chuyển đến ViewInforFragment khi nhấn giữ
+                });
             }
         });
 
@@ -148,4 +160,10 @@ public class TransactionsFragment extends Fragment {
         }
         viewModel.getTransactions(calendar);
     }
+
+    private void showTransactionDetails(Transaction transaction) {
+        ViewInforFragment viewInforFragment = ViewInforFragment.newInstance(transaction);
+        viewInforFragment.show(getParentFragmentManager(), "viewInforFragment"); // Sử dụng getChildFragmentManager() thay vì getParentFragmentManager()
+    }
+
 }

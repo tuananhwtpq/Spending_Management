@@ -1,8 +1,10 @@
 package com.example.spending_management.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Helper {
     public static String formatDate(Date date) {
@@ -21,5 +23,16 @@ public class Helper {
         calendar.set(Calendar.DAY_OF_MONTH, 1);
         return calendar.getTime();
     }
+
+    public static Date parseDate(String dateString) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM, yyyy", Locale.getDefault());
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }

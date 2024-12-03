@@ -183,7 +183,19 @@ public class MainViewModel extends AndroidViewModel {
         realm.commitTransaction();
         getTransactions(calendar);
     }
-
+    public void updateTransaction(Transaction transaction) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(realmInstance -> {
+            realmInstance.insertOrUpdate(transaction);
+        }, realm::close, error -> {
+            //xu li loi
+        });
+    }
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        realm.close();
+    }
 
     public void addTransactions() {
         realm.beginTransaction();

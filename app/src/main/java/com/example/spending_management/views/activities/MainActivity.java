@@ -1,9 +1,12 @@
 package com.example.spending_management.views.activities;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +32,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.List;
+
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -70,12 +82,91 @@ public class MainActivity extends AppCompatActivity {
                 }else if (item.getItemId() == R.id.stats){
                     transaction.replace(R.id.content, new StatsFragment());
                     transaction.addToBackStack(null);
+                } else if (item.getItemId() == R.id.more){
+                    showMoreMenu();
                 }
                 transaction.commit();
                 return true;
             }
         });
 
+    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//
+//        int id = item.getItemId();
+//        if(id == R.id.more){
+//            showMoreMenu(findViewById(R.id.more));
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
+    private void showMoreMenu(){
+        PopupMenu popupMenu = new PopupMenu(this, findViewById(R.id.more));
+
+        popupMenu.getMenuInflater().inflate(R.menu.more_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            if (menuItem.getItemId() == R.id.export_excel) {
+                exportExel();
+                return true;
+            }
+            return false;
+        });
+
+        popupMenu.show();
+    }
+
+    private void exportExel(){
+        try {
+            RealmResults<Transaction> transactions = viewModel.transactions.getValue();
+            if (transactions != null && !transactions.isEmpty()) {
+                List<Transaction> transactionList = new ArrayList<>(transactions);
+                // Gọi hàm exportExcel từ Fragment hoặc tạo phương thức này ở MainActivity
+                exportExcel(transactionList);
+            } else {
+                Toast.makeText(this, "No transactions to export", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Toast.makeText(this, "Error exporting Excel file: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void exportExcel(List<Transaction> transactions) {
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Transactions");
+
+        // Tạo tiêu đề cột
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("ID");
+        headerRow.createCell(1).setCellValue("Amount");
+        headerRow.createCell(2).setCellValue("Category");
+        headerRow.createCell(3).setCellValue("Date");
+
+        // Thêm dữ liệu vào các dòng tiếp theo
+        int rowNum = 1;
+        for (Transaction transaction : transactions) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(transaction.getId());
+            row.createCell(1).setCellValue(transaction.getAmount());
+            row.createCell(2).setCellValue(transaction.getCategory());
+            row.createCell(3).setCellValue(transaction.getDate());
+        }
+
+        // Lưu file
+        File file = new File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "Transactions.xlsx");
+        try (FileOutputStream fileOut = new FileOutputStream(file)) {
+            workbook.write(fileOut);
+            workbook.close();
+            Toast.makeText(this, "Excel file exported to: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error exporting Excel file", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void getTransactions() {

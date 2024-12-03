@@ -1,11 +1,13 @@
 package com.example.spending_management.models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Transaction  extends RealmObject {
+public class Transaction  extends RealmObject implements Serializable {
+
 
     private String type, category, account, note;
     private Date date;
@@ -82,4 +84,6 @@ public class Transaction  extends RealmObject {
     public void setId(long id) {
         this.id = id;
     }
+
+
 }

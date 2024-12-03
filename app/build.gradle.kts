@@ -44,6 +44,8 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation("com.github.AnyChart:AnyChart-Android:1.1.5")
     testImplementation(libs.junit)
+    implementation("org.apache.poi:poi:5.2.3")
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

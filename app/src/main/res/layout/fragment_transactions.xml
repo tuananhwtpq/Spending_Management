@@ -200,15 +200,4 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
-    <ImageView
-        android:id="@+id/emptyState"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:alpha="0.4"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/transactionList"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-        app:srcCompat="@drawable/default_selector" />
 </androidx.constraintlayout.widget.ConstraintLayout>

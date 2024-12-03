@@ -121,7 +121,6 @@ public class StatsFragment extends Fragment {
 
         viewModel.categoriesTransactions.observe(getViewLifecycleOwner(), transactions -> {
             if (transactions.size() > 0) {
-                binding.emptyState.setVisibility(View.GONE);
                 binding.anyChart.setVisibility(View.VISIBLE);
 
                 List<DataEntry> data = new ArrayList<>();
@@ -139,7 +138,6 @@ public class StatsFragment extends Fragment {
 
                 pie.data(data);
             } else {
-                binding.emptyState.setVisibility(View.VISIBLE);
                 binding.anyChart.setVisibility(View.GONE);
             }
         });

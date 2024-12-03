@@ -115,9 +115,9 @@ public class TransactionsFragment extends Fragment {
 
                 binding.transactionList.setAdapter(transactionsAdapter);
                 if(transactions.size() > 0) {
-                    binding.emptyState.setVisibility(View.GONE);
+//                    binding.emptyState.setVisibility(View.GONE);
                 } else {
-                    binding.emptyState.setVisibility(View.VISIBLE);
+//                    binding.emptyState.setVisibility(View.VISIBLE);
                 }
                 transactionsAdapter.setOnTransactionLongClickListener(transaction -> {
                     showTransactionDetails(transaction); // Chuyển đến ViewInforFragment khi nhấn giữ

@@ -12,7 +12,7 @@
 
     <item
         android:id="@+id/accounts"
-        android:icon="@drawable/ic_transaction"
+        android:icon="@drawable/ic_user"
         android:title="Account" />
 
     <item

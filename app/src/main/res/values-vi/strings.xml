@@ -25,4 +25,8 @@
     <string name="app_daily">Ngày</string>
     <string name="app_monthly">Tháng</string>
     <string name="app_calendar">Chọn ngày</string>
+
+    <string name="app_export_excel">Xuất file Excel</string>
+    <string name="app_import_Excel">Nhập file Excel</string>
+    <string name="app_clear">Xóa dữ liệu</string>
 </resources>

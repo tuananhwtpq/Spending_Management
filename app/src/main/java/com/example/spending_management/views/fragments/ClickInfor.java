@@ -190,11 +190,13 @@ public class ClickInfor extends BottomSheetDialogFragment {
             transaction.setNote(note);
             ((MainActivity)getActivity()).viewModel.addTransaction(transaction);
             ((MainActivity)getActivity()).getTransactions();
+            Toast.makeText(getContext(), "Lưu thành công!", Toast.LENGTH_SHORT).show();
             dismiss();
         });
         binding.deleteTransactionBtn.setOnClickListener(c-> {
             ((MainActivity)getActivity()).viewModel.deleteTransaction(transactionDelete);
             ((MainActivity)getActivity()).getTransactions();
+            Toast.makeText(getContext(), "Xóa thành công!", Toast.LENGTH_SHORT).show();
             dismiss();
         });
         return binding.getRoot();

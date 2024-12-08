@@ -179,6 +179,7 @@ public class AddTransactionFragment extends BottomSheetDialogFragment {
             transaction.setNote(note);
             ((MainActivity)getActivity()).viewModel.addTransaction(transaction);
             ((MainActivity)getActivity()).getTransactions();
+            Toast.makeText(getContext(), "Lưu thành công!", Toast.LENGTH_SHORT).show();
             dismiss();
         });
 

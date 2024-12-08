@@ -27,4 +27,8 @@
     <string name="app_daily">Daily</string>
     <string name="app_monthly">Monthly</string>
     <string name="app_calendar">Calendar</string>
+
+    <string name="app_export_excel">Export Excel</string>
+    <string name="app_import_Excel">Import Excel</string>
+    <string name="app_clear">Clear data</string>
 </resources>

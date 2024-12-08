@@ -3,28 +3,21 @@ package com.example.spending_management.views.fragments;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.spending_management.models.Transaction;
-import com.example.spending_management.R;
 import com.example.spending_management.adapters.TransactionAdapter;
 import com.example.spending_management.databinding.FragmentTransactionsBinding;
-import com.example.spending_management.models.Transaction;
 import com.example.spending_management.utils.Constants;
 import com.example.spending_management.utils.Helper;
-import com.example.spending_management.utils.Utils;
 import com.example.spending_management.viewmodels.MainViewModel;
-import com.example.spending_management.views.activities.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +27,6 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import io.realm.RealmResults;
-import io.realm.internal.Util;
 
 public class TransactionsFragment extends Fragment {
 
@@ -47,10 +39,6 @@ public class TransactionsFragment extends Fragment {
 
     public TransactionsFragment() {
         // Required empty public constructor
-    }
-    public String getLanguage()
-    {
-        return Utils.getCurrentLanguage(getContext());
     }
 
     @Override

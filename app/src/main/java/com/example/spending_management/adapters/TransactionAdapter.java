@@ -41,10 +41,6 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.
     public void setOnTransactionClickListener(OnTransactionClickListener listener) {
         this.clickListener = listener;
     }
-    public void setOnTransactionLongClickListener(OnTransactionLongClickListener listener) {
-        this.longClickListener = listener;
-    }
-
     public TransactionAdapter(Context context, RealmResults<Transaction> transactions) {
         this.context = context;
         this.transactions = transactions;

@@ -303,4 +303,18 @@ public class MainViewModel extends AndroidViewModel {
         realm = Realm.getDefaultInstance();
     }
 
+    public void deleteAllTransactions() {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            realm.beginTransaction();
+            RealmResults<Transaction> transactions = realm.where(Transaction.class).findAll();
+            transactions.deleteAllFromRealm(); // Xóa tất cả các đối tượng Transaction
+            realm.commitTransaction();
+            getTransactions(calendar); // Cập nhật lại danh sách các transactions (nếu cần)
+        } catch (Exception e) {
+            Log.d("Loi", "Lỗi khi xóa tất cả transaction: " + e.toString());
+        } finally {
+            realm.close(); // Đảm bảo đóng Realm
+        }
+    }
 }

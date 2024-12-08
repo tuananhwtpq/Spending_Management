@@ -64,23 +64,17 @@
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Daily" />
+            android:text="@string/app_daily" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monthly" />
+            android:text="@string/app_monthly" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calendar" />
-
-        <com.google.android.material.tabs.TabItem
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Summary" />
+            android:text="@string/app_calendar" />
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -106,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Income"
+                android:text="@string/app_income"
                 android:textColor="#89E71C"
                 android:textSize="20sp" />
 
@@ -132,7 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Expense"
+                android:text="@string/app_expense"
                 android:textColor="#E21212"
                 android:textSize="20sp" />
 
@@ -158,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Total"
+                android:text="@string/app_total"
                 android:textColor="#FFC107"
                 android:textSize="20sp" />
 

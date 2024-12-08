@@ -22,6 +22,7 @@ import com.example.spending_management.databinding.FragmentTransactionsBinding;
 import com.example.spending_management.models.Transaction;
 import com.example.spending_management.utils.Constants;
 import com.example.spending_management.utils.Helper;
+import com.example.spending_management.utils.Utils;
 import com.example.spending_management.viewmodels.MainViewModel;
 import com.example.spending_management.views.activities.MainActivity;
 import com.google.android.material.tabs.TabLayout;
@@ -33,6 +34,7 @@ import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import io.realm.RealmResults;
+import io.realm.internal.Util;
 
 public class TransactionsFragment extends Fragment {
 
@@ -41,12 +43,15 @@ public class TransactionsFragment extends Fragment {
     Calendar calendar;
     public MainViewModel viewModel;
 
-    public String beforClickCalendar = "Daily";
+    public int beforClickCalendar = 0;
 
     public TransactionsFragment() {
         // Required empty public constructor
     }
-
+    public String getLanguage()
+    {
+        return Utils.getCurrentLanguage(getContext());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,7 +67,7 @@ public class TransactionsFragment extends Fragment {
         binding.nextDateBtn.setOnClickListener(c-> {
             if (Constants.SELECTED_TAB == Constants.CALENDAR)
             {
-                if (beforClickCalendar.equals("Daily") || beforClickCalendar.equals("Calendar")) {
+                if (beforClickCalendar == 0 || beforClickCalendar == 2) {
                     calendar.add(Calendar.DATE, 1);
                 }
                 else {
@@ -86,7 +91,7 @@ public class TransactionsFragment extends Fragment {
         binding.previousDateBtn.setOnClickListener(c-> {
             if (Constants.SELECTED_TAB == Constants.CALENDAR)
             {
-                if (beforClickCalendar.equals("Daily") || beforClickCalendar.equals("Calendar")) {
+                if (beforClickCalendar == 0 || beforClickCalendar == 2) {
                     calendar.add(Calendar.DATE, -1);
                 }
                 else {
@@ -116,15 +121,15 @@ public class TransactionsFragment extends Fragment {
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getText().equals("Monthly")) {
-                    beforClickCalendar = "Monthly";
+                if(tab.getText().equals("Monthly") || tab.getText().equals("Tháng")) {
+                    beforClickCalendar = 1;
                     Constants.SELECTED_TAB = 1;
                     updateDate();
-                } else if(tab.getText().equals("Daily")) {
-                    beforClickCalendar = "Daily";
+                } else if(tab.getText().equals("Daily") || tab.getText().equals("Ngày")) {
+                    beforClickCalendar = 0;
                     Constants.SELECTED_TAB = 0;
                     updateDate();
-                } else if (tab.getText().equals("Calendar")) {
+                } else if (tab.getText().equals("Calendar") || tab.getText().equals("Chọn ngày")) {
                     Constants.SELECTED_TAB = 2;
                     updateDate();
                 }
@@ -137,17 +142,12 @@ public class TransactionsFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                if (tab.getText().equals("Calendar"))
+                if (tab.getText().equals("Calendar") || tab.getText().equals("Chọn ngày"))
                 {
                     updateDate();
                 }
             }
         });
-
-
-
-
-
         binding.transactionList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         viewModel.transactions.observe(getViewLifecycleOwner(), new Observer<RealmResults<Transaction>>() {
@@ -170,9 +170,6 @@ public class TransactionsFragment extends Fragment {
                 } else {
 //                    binding.emptyState.setVisibility(View.VISIBLE);
                 }
-                transactionsAdapter.setOnTransactionLongClickListener(transaction -> {
-                    showTransactionDetails(transaction); // Chuyển đến ViewInforFragment khi nhấn giữ
-                });
             }
         });
 
@@ -221,17 +218,12 @@ public class TransactionsFragment extends Fragment {
                 this.calendar = calendar;
                 binding.currentDate.setText(Helper.formatDate(calendar.getTime()));
                 viewModel.getTransactions(calendar);
-                beforClickCalendar = "Calendar";
+                beforClickCalendar = 2;
             });
             datePickerDialog.show();
             return;
         }
         viewModel.getTransactions(calendar);
-    }
-
-    private void showTransactionDetails(Transaction transaction) {
-        ViewInforFragment viewInforFragment = ViewInforFragment.newInstance(transaction);
-        viewInforFragment.show(getParentFragmentManager(), "viewInforFragment"); // Sử dụng getChildFragmentManager() thay vì getParentFragmentManager()
     }
 
 }

@@ -25,6 +25,7 @@ import com.example.spending_management.views.fragments.AddTransactionFragment;
 import com.example.spending_management.R;
 import com.example.spending_management.databinding.ActivityMainBinding;
 import com.example.spending_management.views.fragments.ClickInfor;
+import com.example.spending_management.views.fragments.SettingsFragment;
 import com.example.spending_management.views.fragments.StatsFragment;
 import com.example.spending_management.views.fragments.TransactionsFragment;
 import com.google.android.material.navigation.NavigationBarView;
@@ -84,8 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 }else if (item.getItemId() == R.id.stats){
                     transaction.replace(R.id.content, new StatsFragment());
                     transaction.addToBackStack(null);
-                } else if (item.getItemId() == R.id.more){
-                    showMoreMenu();
+                } else if (item.getItemId() == R.id.settings){
+                    transaction.replace(R.id.content, new SettingsFragment());
+                    transaction.addToBackStack(null);
                 }
                 transaction.commit();
                 return true;
@@ -176,16 +178,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item == searchItem)
         {
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            EditText editText = new EditText(this);
-//            editText.setHint("Nhập từ khóa");
-//            builder.setTitle("Tìm kiếm")
-//                    .setView(editText)
-//                    .setPositiveButton("OK", (dialog, which) -> {
-//                        Toast.makeText(MainActivity.this, "Long", Toast.LENGTH_SHORT).show();
-//                    })
-//                    .setNegativeButton("Thoát", null)
-//                    .show();
             Toast.makeText(this, "Vui lòng đăng ký Vip để tìm kiếm!", Toast.LENGTH_SHORT).show();
         }
         else if (item == thongBao)

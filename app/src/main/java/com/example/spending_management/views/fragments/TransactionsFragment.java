@@ -1,16 +1,21 @@
 package com.example.spending_management.views.fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.example.spending_management.models.Transaction;
 import com.example.spending_management.R;
 import com.example.spending_management.adapters.TransactionAdapter;
 import com.example.spending_management.databinding.FragmentTransactionsBinding;
@@ -21,15 +26,22 @@ import com.example.spending_management.viewmodels.MainViewModel;
 import com.example.spending_management.views.activities.MainActivity;
 import com.google.android.material.tabs.TabLayout;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.text.DecimalFormat;
 import java.util.Calendar;
 
 import io.realm.RealmResults;
 
 public class TransactionsFragment extends Fragment {
 
+    private static final Logger log = LogManager.getLogger(TransactionsFragment.class);
     FragmentTransactionsBinding binding;
     Calendar calendar;
     public MainViewModel viewModel;
+
+    public String beforClickCalendar = "Daily";
 
     public TransactionsFragment() {
         // Required empty public constructor
@@ -48,6 +60,21 @@ public class TransactionsFragment extends Fragment {
         updateDate();
 
         binding.nextDateBtn.setOnClickListener(c-> {
+            if (Constants.SELECTED_TAB == Constants.CALENDAR)
+            {
+                if (beforClickCalendar.equals("Daily") || beforClickCalendar.equals("Calendar")) {
+                    calendar.add(Calendar.DATE, 1);
+                }
+                else {
+                    calendar.add(Calendar.MONTH, 1);
+                    binding.currentDate.setText(Helper.formatDateByMonth(calendar.getTime()));
+                    viewModel.LoadMonthly(calendar);
+                    return;
+                }
+                binding.currentDate.setText(Helper.formatDate(calendar.getTime()));
+                viewModel.getTransactions(calendar);
+                return;
+            }
             if(Constants.SELECTED_TAB == Constants.DAILY) {
                 calendar.add(Calendar.DATE, 1);
             } else if(Constants.SELECTED_TAB == Constants.MONTHLY) {
@@ -57,6 +84,21 @@ public class TransactionsFragment extends Fragment {
         });
 
         binding.previousDateBtn.setOnClickListener(c-> {
+            if (Constants.SELECTED_TAB == Constants.CALENDAR)
+            {
+                if (beforClickCalendar.equals("Daily") || beforClickCalendar.equals("Calendar")) {
+                    calendar.add(Calendar.DATE, -1);
+                }
+                else {
+                    calendar.add(Calendar.MONTH, -1);
+                    binding.currentDate.setText(Helper.formatDateByMonth(calendar.getTime()));
+                    viewModel.LoadMonthly(calendar);
+                    return;
+                }
+                binding.currentDate.setText(Helper.formatDate(calendar.getTime()));
+                viewModel.getTransactions(calendar);
+                return;
+            }
             if(Constants.SELECTED_TAB == Constants.DAILY) {
                 calendar.add(Calendar.DATE, -1);
             } else if(Constants.SELECTED_TAB == Constants.MONTHLY) {
@@ -75,10 +117,15 @@ public class TransactionsFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if(tab.getText().equals("Monthly")) {
+                    beforClickCalendar = "Monthly";
                     Constants.SELECTED_TAB = 1;
                     updateDate();
                 } else if(tab.getText().equals("Daily")) {
+                    beforClickCalendar = "Daily";
                     Constants.SELECTED_TAB = 0;
+                    updateDate();
+                } else if (tab.getText().equals("Calendar")) {
+                    Constants.SELECTED_TAB = 2;
                     updateDate();
                 }
             }
@@ -90,7 +137,10 @@ public class TransactionsFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                if (tab.getText().equals("Calendar"))
+                {
+                    updateDate();
+                }
             }
         });
 
@@ -108,11 +158,12 @@ public class TransactionsFragment extends Fragment {
                 transactionsAdapter.setOnTransactionClickListener(new TransactionAdapter.OnTransactionClickListener() {
                     @Override
                     public void onTransactionClick(Transaction transaction) {
-                        showTransactionDetails(transaction);
+//                        showTransactionDetails(transaction);
+                        // Code Tuan Anh
+                        long id = transaction.getId();
+                        new ClickInfor(id).show(getActivity().getSupportFragmentManager(), null);
                     }
                 });
-
-
                 binding.transactionList.setAdapter(transactionsAdapter);
                 if(transactions.size() > 0) {
 //                    binding.emptyState.setVisibility(View.GONE);
@@ -128,21 +179,24 @@ public class TransactionsFragment extends Fragment {
         viewModel.totalIncome.observe(getViewLifecycleOwner(), new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
-                binding.incomeLbl.setText(String.valueOf(aDouble));
+                DecimalFormat df = new DecimalFormat("#");
+                binding.incomeLbl.setText(String.valueOf(df.format(aDouble)));
             }
         });
 
         viewModel.totalExpense.observe(getViewLifecycleOwner(), new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
-                binding.expenseLbl.setText(String.valueOf(aDouble));
+                DecimalFormat df = new DecimalFormat("#");
+                binding.expenseLbl.setText(String.valueOf(df.format(aDouble)));
             }
         });
 
         viewModel.totalAmount.observe(getViewLifecycleOwner(), new Observer<Double>() {
             @Override
             public void onChanged(Double aDouble) {
-                binding.totalLbl.setText(String.valueOf(aDouble));
+                DecimalFormat df = new DecimalFormat("#");
+                binding.totalLbl.setText(String.valueOf(df.format(aDouble)));
             }
         });
         viewModel.getTransactions(calendar);
@@ -152,11 +206,25 @@ public class TransactionsFragment extends Fragment {
 
 
 
-    void updateDate() {
+    public void updateDate() {
         if(Constants.SELECTED_TAB == Constants.DAILY) {
             binding.currentDate.setText(Helper.formatDate(calendar.getTime()));
         } else if(Constants.SELECTED_TAB == Constants.MONTHLY) {
             binding.currentDate.setText(Helper.formatDateByMonth(calendar.getTime()));
+        } else if (Constants.SELECTED_TAB == Constants.CALENDAR) {
+            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext());
+            datePickerDialog.setOnDateSetListener((datePicker, i, i1, i2) -> {
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.DAY_OF_MONTH, datePicker.getDayOfMonth());
+                calendar.set(Calendar.MONTH, datePicker.getMonth());
+                calendar.set(Calendar.YEAR, datePicker.getYear());
+                this.calendar = calendar;
+                binding.currentDate.setText(Helper.formatDate(calendar.getTime()));
+                viewModel.getTransactions(calendar);
+                beforClickCalendar = "Calendar";
+            });
+            datePickerDialog.show();
+            return;
         }
         viewModel.getTransactions(calendar);
     }

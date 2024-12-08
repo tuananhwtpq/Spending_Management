@@ -2,6 +2,7 @@ package com.example.spending_management.views.activities;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.example.spending_management.viewmodels.MainViewModel;
 import com.example.spending_management.views.fragments.AddTransactionFragment;
 import com.example.spending_management.R;
 import com.example.spending_management.databinding.ActivityMainBinding;
+import com.example.spending_management.views.fragments.ClickInfor;
 import com.example.spending_management.views.fragments.StatsFragment;
 import com.example.spending_management.views.fragments.TransactionsFragment;
 import com.google.android.material.navigation.NavigationBarView;
@@ -89,19 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
-
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//
-//        int id = item.getItemId();
-//        if(id == R.id.more){
-//            showMoreMenu(findViewById(R.id.more));
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
 
     private void showMoreMenu(){
         PopupMenu popupMenu = new PopupMenu(this, findViewById(R.id.more));
@@ -173,9 +163,37 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getTransactions(calendar);
     }
 
+    public MenuItem searchItem, thongBao;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_menu,menu);
+        searchItem = menu.findItem(R.id.search);
+        thongBao = menu.findItem(R.id.thongBao);
         return super.onCreateOptionsMenu(menu);
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item == searchItem)
+        {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            EditText editText = new EditText(this);
+//            editText.setHint("Nhập từ khóa");
+//            builder.setTitle("Tìm kiếm")
+//                    .setView(editText)
+//                    .setPositiveButton("OK", (dialog, which) -> {
+//                        Toast.makeText(MainActivity.this, "Long", Toast.LENGTH_SHORT).show();
+//                    })
+//                    .setNegativeButton("Thoát", null)
+//                    .show();
+            Toast.makeText(this, "Vui lòng đăng ký Vip để tìm kiếm!", Toast.LENGTH_SHORT).show();
+        }
+        else if (item == thongBao)
+        {
+            Toast.makeText(this, "Không có thông báo!", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
 }
